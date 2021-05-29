@@ -84,4 +84,46 @@ $(document).ready(function () {
   });
 
   $("#source_language").val("en")
+
+  $("#submit").click(function(){
+      if (!$("#text").val()){
+          alert("please add some text")
+          return false;
+      }
+      if (!$("#source_language").val()){
+        alert("please select a source language")
+        return false;
+      }
+      if (!$("#target_language").val()){
+        alert("please select a target language")
+        return false;
+      }
+
+      $.ajax({
+        method: "POST",
+        url: "https://translate.google.com/translate_a/single"
+        + "?client=at&dt=t&dt=ld&dt=qca&dt=rm&dt=bd&dj=1&hl=" + $("#target_language").val() + "&ie=UTF-8"
+        + "&oe=UTF-8&inputm=2&otf=2&iid=1dd3b944-fa62-4b55-b330-74909a99969e",
+          cors: true ,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+            'Access-Control-Allow-Origin': '*',
+          },
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+            xhr.setRequestHeader("Access-Control-Allow-Credentials", "true");
+            xhr.setRequestHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+            xhr.setRequestHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+            xhr.setRequestHeader ("Authorization", "Basic " + btoa(""));
+          },
+        data: {
+            'sl': $("#source_language").val(),
+            'tl': $("#target_language").val(),
+            'q': $("#text").val(),
+          }
+      })
+        .done(function( data ) {
+          console.log(data);
+        });
+  })
 });
