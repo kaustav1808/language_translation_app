@@ -101,22 +101,13 @@ $(document).ready(function () {
 
     $.ajax({
       method: "POST",
-      url:
-        "https://translate.google.com/translate_a/single" +
-        "?client=at&dt=t&dt=ld&dt=qca&dt=rm&dt=bd&dj=1&hl=" +
-        $("#target_language").val() +
-        "&ie=UTF-8" +
-        "&oe=UTF-8&inputm=2&otf=2&iid=1dd3b944-fa62-4b55-b330-74909a99969e",
-      cors: true,
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-        "Access-Control-Allow-Origin": "*",
-      },
-      data: {
+      url: "/translate",
+      contentType: "application/json; charset=utf-8",
+      data: JSON.stringify({
         sl: $("#source_language").val(),
         tl: $("#target_language").val(),
         q: $("#text").val(),
-      },
+      }),
     }).done(function (data) {
       console.log(data);
     });
